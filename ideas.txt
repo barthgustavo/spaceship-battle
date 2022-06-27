@@ -1,0 +1,5 @@
+- x1 de espaçonaves
+- se o hit colidir, desaparece
+- front manda a posição da nave
+- front manda a posição do hit que fez
+- setar uma largura fixa de arena?
