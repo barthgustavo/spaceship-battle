@@ -1,10 +1,10 @@
 import Battle from "./Battle";
-import IPosition from "./interfaces/Position";
+import IPosition from "./interfaces/IPosition";
 import Projectile from "./Projectile";
 
 export default class Player {
     
-    battle: Battle;
+    currentBattle: Battle;
     name: string;
     position: IPosition;
     lifePoints: number;
@@ -14,21 +14,21 @@ export default class Player {
         this.position = { x: 0, y: 0 };
         this.lifePoints = 100;
 
-        this.battle = battle;
-        this.battle.joinBattle(this);
+        this.currentBattle = battle;
+        this.currentBattle.joinBattle(this);
     }
 
-    public async setPosition(position: IPosition): Promise<void> {
+    public setPosition(position: IPosition): void {
         this.position = position;
     }
 
-    public async shoot(): Promise<void> {
-        const velocity = 100;
-        const projectile = new Projectile(this.position, velocity, this.battle.projectilesEventEmitter);
+    public shootProjectile(): void {
+        const projectile = new Projectile(100, this);
+        this.currentBattle.appendProjectile(projectile);
         projectile.shoot();
     }
 
-    public async receiveDamage(damage: number): Promise <void> {
+    public receiveDamage(damage: number): void {
         this.lifePoints -= damage;
     }
 };
