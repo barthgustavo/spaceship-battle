@@ -6,8 +6,15 @@ class EventBus {
         return this.listeners.get(topic) || [];
     }
 
-    public subscribe(topic: string, fn: Function): void {
+    public subscribe(topic: string, fn: Function): any {
         this.listeners.set(topic, [...this.getListenersByTopic(topic), fn]);
+
+        //TODO: create an interface to standardize this returned value
+        return {
+            unsubscribe: () => {
+                this.listeners.set(topic, this.getListenersByTopic(topic).filter(listener => listener !== fn));
+            }
+        };
     }
 
     public async publish(topic: string, value: any): Promise<void> {
