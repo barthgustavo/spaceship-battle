@@ -5,7 +5,7 @@ const player1 = new Player("player_1");
 player1.setPosition({ x: 10, y: 500 });
 
 const player2 = new Player("player_2");
-player2.setPosition({ x: 990, y: 600 });
+player2.setPosition({ x: 990, y: 400 });
 
 const battle = new Battle();
 battle.addPlayer(player1);
