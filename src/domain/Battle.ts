@@ -2,7 +2,6 @@ import Player from "./Player";
 import Projectile from "./Projectile";
 import { Events } from "./constants/events";
 import { eventBus } from "../../utils/event-bus";
-import { IProjectileFinishedTravelingEvent } from "./interfaces/IEvent";
 
 export default class Battle {
 
@@ -12,11 +11,12 @@ export default class Battle {
     listeningTopics: any[] = [];
 
     constructor() {
-        this.ID = `${Math.random() * 10000}`;
+        this.ID = `${Math.floor(Math.random() * 10000)}`;
+        this.listeningTopics.push(eventBus.subscribe(Events.PROJECTILE_SHOT, this.handleProjectileShot.bind(this)));
         this.listeningTopics.push(eventBus.subscribe(Events.PROJECTILE_FINISHED_TRAVELING, this.handleProjectileFinishedTraveling.bind(this)));
     }
 
-    public async joinBattle(player: Player) {
+    public addPlayer(player: Player): void {
         if (this.players.length > 1) {
             throw new Error("Battle is full!");
         }
@@ -24,15 +24,15 @@ export default class Battle {
         this.players.push(player);
     }
 
-    public appendProjectile(projectile: Projectile): void {
-        this.projectiles.add(projectile);
-    }
-
     public finishBattle(): void {
         this.listeningTopics.forEach(topic => topic.unsubscribe());
     }
 
-    private handleProjectileFinishedTraveling({ projectile }: IProjectileFinishedTravelingEvent): void {
+    private handleProjectileShot(projectile: Projectile): void {
+        this.projectiles.add(projectile);
+    }
+
+    private handleProjectileFinishedTraveling(projectile: Projectile): void {
         if (!this.projectiles.has(projectile)) {
             throw new Error("Projectile not found!");
         }

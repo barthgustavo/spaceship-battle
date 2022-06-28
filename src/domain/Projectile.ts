@@ -25,6 +25,6 @@ export default class Projectile {
             await delay(10);
         }
 
-        eventBus.publish(Events.PROJECTILE_FINISHED_TRAVELING, { projectile: this });
+        eventBus.publish(Events.PROJECTILE_FINISHED_TRAVELING, this);
     }
 };

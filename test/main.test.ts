@@ -14,13 +14,15 @@ test("should subscribe to event bus and publish something", async () => {
 });
 
 test("should initialize battle with players", async () => {
-    const battle = new Battle();
-
-    const player1 = new Player(battle, "player_1");
+    const player1 = new Player("player_1");
     player1.setPosition({ x: 10, y: 500 });
 
-    const player2 = new Player(battle, "player_2");
+    const player2 = new Player("player_2");
     player2.setPosition({ x: 990, y: 600 });
+
+    const battle = new Battle();
+    battle.addPlayer(player1);
+    battle.addPlayer(player2);
 
     expect(battle.players.length).toBe(2);
     expect(player1.position.y).toBe(500);
@@ -30,13 +32,15 @@ test("should initialize battle with players", async () => {
 });
 
 test("shot projectile should decrease enemy's life", async () => {
-    const battle = new Battle();
-
-    const player1 = new Player(battle, "player_1");
+    const player1 = new Player("player_1");
     player1.setPosition({ x: 10, y: 500 });
 
-    const player2 = new Player(battle, "player_2");
+    const player2 = new Player("player_2");
     player2.setPosition({ x: 990, y: 500 });
+
+    const battle = new Battle();
+    battle.addPlayer(player1);
+    battle.addPlayer(player2);
 
     const player2LifeBefore = player2.lifePoints;
 
@@ -49,4 +53,6 @@ test("shot projectile should decrease enemy's life", async () => {
     await delay(projectileTimeToTravel);
 
     expect(player2.lifePoints).toBeLessThan(player2LifeBefore);
+
+    battle.finishBattle();
 });

@@ -1,21 +1,18 @@
-import Battle from "./Battle";
+import { eventBus } from "../../utils/event-bus";
+import { Events } from "./constants/events";
 import IPosition from "./interfaces/IPosition";
 import Projectile from "./Projectile";
 
 export default class Player {
     
-    currentBattle: Battle;
     name: string;
     position: IPosition;
     lifePoints: number;
 
-    constructor(battle: Battle, name: string) {
+    constructor(name: string) {
         this.name = name;
         this.position = { x: 0, y: 0 };
         this.lifePoints = 100;
-
-        this.currentBattle = battle;
-        this.currentBattle.joinBattle(this);
     }
 
     public setPosition(position: IPosition): void {
@@ -24,7 +21,7 @@ export default class Player {
 
     public shootProjectile(): void {
         const projectile = new Projectile(100, this);
-        this.currentBattle.appendProjectile(projectile);
+        eventBus.publish(Events.PROJECTILE_SHOT, projectile);
         projectile.shoot();
     }
 
