@@ -1,0 +1,1 @@
+export const getShallowCopy = (obj: any) => Object.assign(obj);

@@ -2,13 +2,11 @@ import { Inputs } from "../constants/inputs";
 
 class Input {
 
-    inputs: Map<number, Function> = new Map();
+    inputs: Map<string, Function> = new Map();
 
     constructor() {
-        console.log(document)
-        document.addEventListener("keydown", (e: any) => {
-            const keyCode = e.keyCode;
-            const fn = this.inputs.get(keyCode);
+        document.addEventListener("keydown", (e: KeyboardEvent) => {
+            const fn = this.inputs.get(e.key);
             if (fn) fn();
         });
     }
