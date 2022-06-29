@@ -1,4 +1,4 @@
-import Player from "./Player";
+import Spaceship from "./Spaceship";
 import Projectile from "./Projectile";
 import { Events } from "./constants/events";
 import { eventBus } from "../../utils/event-bus";
@@ -6,7 +6,7 @@ import { eventBus } from "../../utils/event-bus";
 export default class Battle {
 
     ID: string;
-    players: Player[] = [];
+    spaceships: Spaceship[] = [];
     projectiles: Set<Projectile> = new Set();
     listeningTopics: any[] = [];
 
@@ -16,12 +16,12 @@ export default class Battle {
         this.listeningTopics.push(eventBus.subscribe(Events.PROJECTILE_FINISHED_TRAVELING, this.handleProjectileFinishedTraveling.bind(this)));
     }
 
-    public addPlayer(player: Player): void {
-        if (this.players.length > 1) {
+    public addSpaceship(spaceship: Spaceship): void {
+        if (this.spaceships.length > 1) {
             throw new Error("Battle is full!");
         }
 
-        this.players.push(player);
+        this.spaceships.push(spaceship);
     }
 
     public finishBattle(): void {
@@ -37,7 +37,7 @@ export default class Battle {
             throw new Error("Projectile not found!");
         }
 
-        const adversary = this.players.find(p => p !== projectile.originPlayer);
+        const adversary = this.spaceships.find(p => p !== projectile.originSpaceship);
 
         if (!adversary) {
             throw new Error("Are you playing alone son?");

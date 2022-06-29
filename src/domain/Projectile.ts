@@ -2,19 +2,19 @@ import IPosition from "./interfaces/IPosition";
 import { delay } from "../../utils/delay";
 import { Events } from "./constants/events";
 import { eventBus } from "../../utils/event-bus";
-import Player from "./Player";
-import { getShallowCopy } from "../../utils/getShallowCopy";
+import Spaceship from "./Spaceship";
+import { getShallowCopy } from "../../utils/get-shallow-copy";
 
 export default class Projectile {
 
     velocity: number;
     position: IPosition;
-    originPlayer: Player;
+    originSpaceship: Spaceship;
 
-    constructor(velocity: number, player: Player) {
-        this.position = getShallowCopy(player.position);
+    constructor(velocity: number, spaceship: Spaceship) {
+        this.position = getShallowCopy(spaceship.position);
         this.velocity = velocity;
-        this.originPlayer = player;
+        this.originSpaceship = spaceship;
     }
 
     public async shoot(): Promise<void> {
