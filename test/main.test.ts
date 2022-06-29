@@ -1,5 +1,5 @@
 import Battle from "../src/domain/Battle";
-import Player from "../src/domain/Player";
+import Spaceship from "../src/domain/Spaceship";
 import { eventBus } from "../utils/event-bus";
 import { delay } from "../utils/delay";
 
@@ -14,17 +14,17 @@ test("should subscribe to event bus and publish something", async () => {
 });
 
 test("should initialize battle with players", async () => {
-    const player1 = new Player("player_1");
+    const player1 = new Spaceship("player_1", false);
     player1.setPosition({ x: 10, y: 500 });
 
-    const player2 = new Player("player_2");
+    const player2 = new Spaceship("player_2", true);
     player2.setPosition({ x: 990, y: 600 });
 
     const battle = new Battle();
-    battle.addPlayer(player1);
-    battle.addPlayer(player2);
+    battle.addSpaceship(player1);
+    battle.addSpaceship(player2);
 
-    expect(battle.players.length).toBe(2);
+    expect(battle.spaceships.length).toBe(2);
     expect(player1.position.y).toBe(500);
     expect(player2.position.y).toBe(600);
 
@@ -32,15 +32,15 @@ test("should initialize battle with players", async () => {
 });
 
 test("shot projectile should decrease enemy's life", async () => {
-    const player1 = new Player("player_1");
+    const player1 = new Spaceship("player_1", false);
     player1.setPosition({ x: 10, y: 500 });
 
-    const player2 = new Player("player_2");
+    const player2 = new Spaceship("player_2", true);
     player2.setPosition({ x: 990, y: 500 });
 
     const battle = new Battle();
-    battle.addPlayer(player1);
-    battle.addPlayer(player2);
+    battle.addSpaceship(player1);
+    battle.addSpaceship(player2);
 
     const player2LifeBefore = player2.lifePoints;
 

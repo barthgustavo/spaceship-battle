@@ -1,18 +1,19 @@
-import Battle from "./domain/Battle";
-import Player from "./domain/Player";
+import { Inputs } from "./web/constants/inputs";
+import Canvas from "./web/elements/Canvas";
+import SpaceshipElement from "./web/elements/SpaceshipElement";
+import Helper from "./web/helper";
+import { input } from "./web/helpers/input";
 
-const player1 = new Player("player_1");
-player1.setPosition({ x: 10, y: 500 });
+const spaceship = new SpaceshipElement("player_1");
+input.listen(Inputs.RIGHT, spaceship.moveRight.bind(spaceship));
+input.listen(Inputs.LEFT, spaceship.moveLeft.bind(spaceship));
 
-const player2 = new Player("player_2");
-player2.setPosition({ x: 990, y: 400 });
+const spaceshipEnemy = new SpaceshipElement("player_2", true);
+spaceshipEnemy.setPosition({ x: 450, y: 0 });
+input.listen(Inputs.UP, spaceshipEnemy.moveRight.bind(spaceshipEnemy));
+input.listen(Inputs.DOWN, spaceshipEnemy.moveLeft.bind(spaceshipEnemy));
 
-const battle = new Battle();
-battle.addPlayer(player1);
-battle.addPlayer(player2);
-
-console.log(battle.players.length);
-console.log(player1.position.y);
-console.log(player2.position.y);
-
-battle.finishBattle();
+const canvas = new Canvas(Helper.getById("game"));
+canvas.addObject(spaceship)
+canvas.addObject(spaceshipEnemy)
+canvas.init();
